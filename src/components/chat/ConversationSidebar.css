@@ -1,0 +1,48 @@
+/* src/components/chat/ConversationSidebar.css */
+
+.new-chat-button {
+    display: block;
+    width: 100%;
+    padding: 12px 15px;
+    margin-bottom: 15px;
+    background-color: #4a4f5a;
+    color: white;
+    border: 1px solid #61dafb;
+    border-radius: 8px;
+    text-align: center;
+    text-decoration: none;
+    font-weight: bold;
+    transition: background-color 0.2s;
+}
+
+.new-chat-button:hover {
+    background-color: #5a5f6a;
+}
+
+.conversation-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.conversation-item {
+    display: block;
+    padding: 10px 15px;
+    color: #ccc;
+    text-decoration: none;
+    border-radius: 6px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    transition: background-color 0.2s;
+}
+
+.conversation-item:hover {
+    background-color: #3a3f4a;
+}
+
+.conversation-item.active {
+    background-color: #007bff;
+    color: white;
+    font-weight: bold;
+}

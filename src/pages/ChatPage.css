@@ -1,0 +1,68 @@
+/* ChatPage.css */
+
+.chat-form {
+    display: flex;
+    flex-direction: column;
+}
+
+.input-area {
+    display: flex;
+    align-items: center;
+    width: 100%;
+}
+
+.input-area textarea {
+    flex-grow: 1;
+    margin-right: 10px;
+}
+
+.upload-btn {
+    background: none;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 8px 12px;
+    cursor: pointer;
+    margin-right: 10px;
+    font-size: 1.5em;
+}
+
+.upload-btn:hover {
+    background-color: #f0f0f0;
+}
+
+.image-preview-container {
+    position: relative;
+    margin-bottom: 10px;
+    max-width: 200px;
+}
+
+.image-preview {
+    max-width: 100%;
+    height: auto;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+}
+
+.remove-image-btn {
+    position: absolute;
+    top: -10px;
+    right: -10px;
+    background: #ff4d4d;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 24px;
+    height: 24px;
+    font-size: 16px;
+    line-height: 24px;
+    text-align: center;
+    cursor: pointer;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+
+.message-image-preview {
+    max-width: 150px;
+    display: block;
+    margin-bottom: 5px;
+    border-radius: 4px;
+}

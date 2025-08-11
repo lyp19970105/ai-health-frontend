@@ -3,6 +3,7 @@ import { useParams, useNavigate, useLocation } from 'react-router-dom';
 import { getConversationDetails, getConversations, streamChat, streamVlmChat } from '../api/chatApi';
 import imageCompression from 'browser-image-compression';
 import ConversationSidebar from '../components/chat/ConversationSidebar';
+import { useAppContext } from '../context/AppContext';
 import './ChatPageLayout.css'; // Main layout CSS
 import './ChatPage.css';       // Component-specific CSS
 
@@ -10,10 +11,22 @@ function ChatPage() {
     const { appCode, conversationId: convIdFromUrl } = useParams();
     const navigate = useNavigate();
     const location = useLocation();
+    const { setPageTitle } = useAppContext();
     
     const app = location.state?.app;
     const modelType = app?.modelType || 'TEXT';
     const appName = app?.appName || appCode;
+
+    // Set the page title when the component mounts or appName changes
+    useEffect(() => {
+        if (appName) {
+            setPageTitle(appName);
+        }
+        // Reset the title when the component unmounts
+        return () => {
+            setPageTitle('Health Monitoring');
+        };
+    }, [appName, setPageTitle]);
 
     const [userInput, setUserInput] = useState('');
     const [imageFile, setImageFile] = useState(null);
@@ -204,60 +217,55 @@ ${err.message}`);
         <div className="chat-page-layout">
             <ConversationSidebar appCode={appCode} conversations={conversations} app={app} />
             <main className="chat-main">
-                <header className="App-header">
-                    <h1>{appName}</h1>
-                </header>
-                <div className="chat-window">
-                    <div className="messages">
-                        {messages.map((msg, index) => (
-                            <div key={index} className={`message ${msg.role}`}>
-                                <div className="avatar">{msg.role === 'user' ? 'U' : 'A'}</div>
-                                <div className={`content ${msg.isError ? 'error-content' : ''}`}>
-                                    {msg.content}
-                                </div>
+                <div className="messages">
+                    {messages.map((msg, index) => (
+                        <div key={index} className={`message ${msg.role}`}>
+                            <div className="avatar">{msg.role === 'user' ? 'U' : 'A'}</div>
+                            <div className={`content ${msg.isError ? 'error-content' : ''}`}>
+                                {msg.content}
                             </div>
-                        ))}
-                        <div ref={messagesEndRef} />
-                    </div>
-                    <form onSubmit={handleSubmit} className="chat-form">
-                        {imagePreview && (
-                            <div className="image-preview-container">
-                                <img src={imagePreview} alt="preview" className="image-preview" />
-                                <button type="button" onClick={removeImage} className="remove-image-btn">&times;</button>
-                            </div>
-                        )}
-                        <div className="input-area">
-                            {modelType === 'VLM' && (
-                                <button type="button" className="upload-btn" onClick={() => fileInputRef.current.click()} disabled={isLoading}>
-                                    🖼️
-                                </button>
-                            )}
-                            <input
-                                type="file"
-                                ref={fileInputRef}
-                                style={{ display: 'none' }}
-                                onChange={handleImageChange}
-                                accept="image/*"
-                            />
-                            <textarea
-                                value={userInput}
-                                onChange={(e) => setUserInput(e.target.value)}
-                                placeholder="请输入您的问题..."
-                                rows="3"
-                                disabled={isLoading}
-                                onKeyDown={(e) => {
-                                    if (e.key === 'Enter' && !e.shiftKey) {
-                                        e.preventDefault();
-                                        handleSubmit(e);
-                                    }
-                                }}
-                            />
-                            <button type="submit" disabled={isLoading}>
-                                {isLoading ? '发送中...' : '发送'}
-                            </button>
                         </div>
-                    </form>
+                    ))}
+                    <div ref={messagesEndRef} />
                 </div>
+                <form onSubmit={handleSubmit} className="chat-form">
+                    {imagePreview && (
+                        <div className="image-preview-container">
+                            <img src={imagePreview} alt="preview" className="image-preview" />
+                            <button type="button" onClick={removeImage} className="remove-image-btn">&times;</button>
+                        </div>
+                    )}
+                    <div className="input-area">
+                        {modelType === 'VLM' && (
+                            <button type="button" className="upload-btn" onClick={() => fileInputRef.current.click()} disabled={isLoading}>
+                                🖼️
+                            </button>
+                        )}
+                        <input
+                            type="file"
+                            ref={fileInputRef}
+                            style={{ display: 'none' }}
+                            onChange={handleImageChange}
+                            accept="image/*"
+                        />
+                        <textarea
+                            value={userInput}
+                            onChange={(e) => setUserInput(e.target.value)}
+                            placeholder="请输入您的问题..."
+                            rows="3"
+                            disabled={isLoading}
+                            onKeyDown={(e) => {
+                                if (e.key === 'Enter' && !e.shiftKey) {
+                                    e.preventDefault();
+                                    handleSubmit(e);
+                                }
+                            }}
+                        />
+                        <button type="submit" disabled={isLoading}>
+                            {isLoading ? '发送中...' : '发送'}
+                        </button>
+                    </div>
+                </form>
             </main>
         </div>
     );

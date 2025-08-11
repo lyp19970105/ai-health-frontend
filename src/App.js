@@ -9,6 +9,8 @@ import PrivateRoute from './components/common/PrivateRoute';
 import Header from './components/layout/Header';
 import './styles/App.css';
 
+import { AppProvider } from './context/AppContext';
+
 // A new component to handle navigation after authentication state changes.
 const AppContent = () => {
   const auth = useAuth();
@@ -45,9 +47,11 @@ const AppContent = () => {
 function App() {
   return (
     <AuthProvider>
-      <Router>
-        <AppContent />
-      </Router>
+      <AppProvider>
+        <Router>
+          <AppContent />
+        </Router>
+      </AppProvider>
     </AuthProvider>
   );
 }

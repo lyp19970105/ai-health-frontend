@@ -2,7 +2,7 @@
 
 .chat-page-layout {
     display: flex;
-    height: calc(100vh - 80px); /* Full height minus header */
+    height: 100%; /* Take full height of its container */
     background-color: #282c34;
     color: white;
 }
@@ -15,11 +15,32 @@
     display: flex;
     flex-direction: column;
     overflow-y: auto;
+    flex-shrink: 0;
 }
 
+/* The main container for the chat view */
 .chat-main {
     flex-grow: 1;
     display: flex;
-    flex-direction: column;
+    flex-direction: column; /* Stacks messages and form */
     height: 100%;
+    align-items: center; /* Center the content horizontally */
+}
+
+/* The scrollable message list */
+.messages {
+    width: 100%;
+    max-width: 800px;
+    flex-grow: 1;
+    overflow-y: auto;
+    padding: 20px;
+}
+
+/* The form at the bottom */
+.chat-form {
+    width: 100%;
+    max-width: 800px;
+    flex-shrink: 0;
+    padding: 20px;
+    border-top: 1px solid #444;
 }
